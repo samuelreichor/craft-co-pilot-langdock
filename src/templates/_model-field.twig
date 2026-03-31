@@ -1,0 +1,20 @@
+{% import '_includes/forms.twig' as forms %}
+{% from 'co-pilot/settings/_macros' import configWarning %}
+
+{% if models|length %}
+    {{ forms.selectField({
+        label: label,
+        id: 'providerSettings-' ~ handle ~ '-model',
+        name: 'providerSettings[' ~ handle ~ '][model]',
+        value: config.model ?? '',
+        options: models|map(m => { label: m, value: m }),
+        disabled: fileConfig.model is defined,
+        warning: fileConfig.model is defined ? configWarning('providerSettings.' ~ handle ~ '.model'),
+        errors: [],
+    }) }}
+{% else %}
+    <p class="light">Save settings to load models.</p>
+    {% if config.model ?? '' %}
+        <input type="hidden" name="providerSettings[{{ handle }}][model]" value="{{ config.model }}">
+    {% endif %}
+{% endif %}

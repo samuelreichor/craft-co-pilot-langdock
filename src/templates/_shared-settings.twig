@@ -1,0 +1,59 @@
+{% import '_includes/forms.twig' as forms %}
+{% from 'co-pilot/settings/_macros' import configWarning %}
+
+<div class="flex" style="gap: 24px;">
+    <div style="flex: 2;">
+        {{ forms.autosuggestField({
+            label: 'Langdock API Key',
+            instructions: 'The environment variable containing your Langdock API key.',
+            id: 'providerSettings-_langdock-apiKeyEnvVar',
+            name: 'providerSettings[_langdock][apiKeyEnvVar]',
+            value: config.apiKeyEnvVar ?? '',
+            suggestEnvVars: true,
+            placeholder: '$LANGDOCK_API_KEY',
+            disabled: fileConfig.apiKeyEnvVar is defined,
+            warning: fileConfig.apiKeyEnvVar is defined ? configWarning('providerSettings._langdock.apiKeyEnvVar'),
+            errors: [],
+        }) }}
+    </div>
+    <div style="flex: 1;">
+        {{ forms.selectField({
+            label: 'Region',
+            instructions: 'Data residency region for API requests.',
+            id: 'providerSettings-_langdock-region',
+            name: 'providerSettings[_langdock][region]',
+            value: config.region ?? 'eu',
+            options: [
+                { label: 'EU', value: 'eu' },
+                { label: 'US', value: 'us' },
+            ],
+            disabled: fileConfig.region is defined,
+            warning: fileConfig.region is defined ? configWarning('providerSettings._langdock.region'),
+            errors: [],
+        }) }}
+    </div>
+</div>
+
+<div class="flex" style="gap: 24px; margin-top: 24px;">
+    {% for item in providerModels %}
+        <div style="flex: 1;">
+            {% if item.models|length %}
+                {{ forms.selectField({
+                    label: item.label ~ ' Model',
+                    instructions: 'Default model for new chats.',
+                    id: 'providerSettings-' ~ item.handle ~ '-model',
+                    name: 'providerSettings[' ~ item.handle ~ '][model]',
+                    value: item.config.model ?? '',
+                    options: item.models|map(m => { label: m, value: m }),
+                    errors: [],
+                }) }}
+            {% else %}
+                <div class="field">
+                    <div class="heading"><label>{{ item.label }} Model</label></div>
+                    <div class="instructions"><p>Default model for new chats.</p></div>
+                    <p class="light">No models available.</p>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

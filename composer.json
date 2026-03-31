@@ -1,0 +1,51 @@
+{
+  "name": "samuelreichor/craft-co-pilot-langdock",
+  "description": "Langdock provider for coPilot",
+  "type": "craft-plugin",
+  "license": "mit",
+  "support": {
+    "email": "samuelreichor@gmail.com",
+    "issues": "https://github.com/samuelreichor/craft-co-pilot-langdock/issues?state=open",
+    "source": "https://github.com/samuelreichor/craft-co-pilot-langdock",
+    "docs": "https://github.com/samuelreichor/craft-co-pilot-langdock",
+    "rss": "https://github.com/samuelreichor/craft-co-pilot-langdock/releases.atom"
+  },
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.0.0",
+    "samuelreichor/craft-co-pilot": "^0.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "samuelreichor\\coPilotLangdock\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "co-pilot-langdock",
+    "name": "coPilot Langdock",
+    "developer": "Samuel Reichör",
+    "documentationUrl": "https://github.com/samuelreichor/craft-co-pilot-langdock",
+    "class": "samuelreichor\\coPilotLangdock\\CoPilotLangdock"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "minimum-stability": "RC",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}
