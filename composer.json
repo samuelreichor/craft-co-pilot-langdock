@@ -13,7 +13,7 @@
   "require": {
     "php": ">=8.2",
     "craftcms/cms": "^5.0.0",
-    "samuelreichor/craft-co-pilot": "^0.0"
+    "samuelreichor/craft-co-pilot": "^1"
   },
   "require-dev": {
     "craftcms/ecs": "dev-main",
@@ -26,7 +26,7 @@
   },
   "extra": {
     "handle": "co-pilot-langdock",
-    "name": "coPilot Langdock",
+    "name": "CoPilot Langdock",
     "developer": "Samuel Reichör",
     "documentationUrl": "https://github.com/samuelreichor/craft-co-pilot-langdock",
     "class": "samuelreichor\\coPilotLangdock\\CoPilotLangdock"

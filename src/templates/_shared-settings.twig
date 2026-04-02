@@ -1,7 +1,7 @@
 {% import '_includes/forms.twig' as forms %}
 {% from 'co-pilot/settings/_macros' import configWarning %}
 
-<div class="flex" style="gap: 24px;">
+<div class="flex items-start" style="gap: 24px;">
     <div style="flex: 2;">
         {{ forms.autosuggestField({
             label: 'Langdock API Key',
@@ -34,7 +34,33 @@
     </div>
 </div>
 
-<div class="flex" style="gap: 24px; margin-top: 24px;">
+<hr>
+
+<div class="flex items-start" style="gap: 12px; margin-bottom: 12px;">
+    <h2 class="mb-6">Available Models</h2>
+    {% if hasApiKey %}
+        <button type="button" class="btn small" id="refresh-models-btn" title="Refresh model cache" onclick="(function(btn){
+            var spinner = btn.nextElementSibling;
+            btn.classList.add('disabled');
+            spinner.classList.remove('hidden');
+            Craft.sendActionRequest('POST', 'co-pilot-langdock/cache/invalidate-models')
+                .then(function() {
+                    Craft.cp.displayNotice('Model cache cleared.');
+                    location.reload();
+                })
+                .catch(function() {
+                    Craft.cp.displayError('Failed to clear model cache.');
+                    btn.classList.remove('disabled');
+                    spinner.classList.add('hidden');
+                });
+        })(this)">
+            Refresh Models
+        </button>
+        <div class="spinner hidden"></div>
+    {% endif %}
+</div>
+
+<div class="flex" style="gap: 24px;">
     {% for item in providerModels %}
         <div style="flex: 1;">
             {% if item.models|length %}
@@ -51,7 +77,11 @@
                 <div class="field">
                     <div class="heading"><label>{{ item.label }} Model</label></div>
                     <div class="instructions"><p>Default model for new chats.</p></div>
-                    <p class="light">No models available.</p>
+                    {% if not (config.apiKeyEnvVar ?? '') %}
+                        <p class="light">Enter your API key above and save to load available models.</p>
+                    {% else %}
+                        <p class="light">No models available. Enable them in Langdock.</p>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>

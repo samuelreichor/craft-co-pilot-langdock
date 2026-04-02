@@ -107,7 +107,7 @@ class LangdockAnthropicProvider implements ProviderInterface
         $model = LangdockConfig::normalizeModelId($model ?? $this->model);
         $payload = [
             'model' => $model,
-            'max_tokens' => 4096,
+            'max_tokens' => 16384,
             'system' => $systemPrompt,
             'messages' => $this->formatMessages($messages),
         ];

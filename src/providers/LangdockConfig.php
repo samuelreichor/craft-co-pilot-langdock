@@ -15,7 +15,7 @@ final class LangdockConfig
 {
     private const AGENT_MODELS_URL = 'https://api.langdock.com/agent/v1/models';
     private const MODELS_CACHE_KEY = 'coPilotLangdock.models';
-    private const MODELS_CACHE_DURATION = 3600;
+    private const MODELS_CACHE_DURATION = 86400;
     private const CONFIG_KEY = '_langdock';
 
     public static function getApiKey(): ?string
@@ -75,7 +75,13 @@ final class LangdockConfig
             'config' => $config,
             'fileConfig' => $fileConfig,
             'providerModels' => $providerModels,
+            'hasApiKey' => self::getApiKey() !== null,
         ]);
+    }
+
+    public static function invalidateModelCache(): void
+    {
+        Craft::$app->getCache()->delete(self::MODELS_CACHE_KEY);
     }
 
     /**

@@ -3,9 +3,12 @@
 namespace samuelreichor\coPilotLangdock;
 
 use craft\base\Plugin;
+use craft\events\RegisterCacheOptionsEvent;
+use craft\utilities\ClearCaches;
 use samuelreichor\coPilot\events\RegisterProvidersEvent;
 use samuelreichor\coPilot\services\ProviderService;
 use samuelreichor\coPilotLangdock\providers\LangdockAnthropicProvider;
+use samuelreichor\coPilotLangdock\providers\LangdockConfig;
 use samuelreichor\coPilotLangdock\providers\LangdockGeminiProvider;
 use samuelreichor\coPilotLangdock\providers\LangdockOpenAIProvider;
 use yii\base\Event;
@@ -41,6 +44,18 @@ class CoPilotLangdock extends Plugin
                     'gemini' => new LangdockGeminiProvider(),
                 ];
             }
+        );
+
+        Event::on(
+            ClearCaches::class,
+            ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
+            function(RegisterCacheOptionsEvent $event): void {
+                $event->options[] = [
+                    'key' => 'copilot-langdock-models',
+                    'label' => 'CoPilot model caches',
+                    'action' => [LangdockConfig::class, 'invalidateModelCache'],
+                ];
+            },
         );
     }
 }
