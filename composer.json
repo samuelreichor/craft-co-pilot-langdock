@@ -1,8 +1,9 @@
 {
   "name": "samuelreichor/craft-co-pilot-langdock",
-  "description": "Langdock provider for coPilot",
+  "description": "Langdock provider for CoPilot",
   "type": "craft-plugin",
   "license": "mit",
+  "version": "1.0.0",
   "support": {
     "email": "samuelreichor@gmail.com",
     "issues": "https://github.com/samuelreichor/craft-co-pilot-langdock/issues?state=open",
